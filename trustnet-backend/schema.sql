@@ -1,0 +1,11 @@
+-- TRUSTNET POSTGRESQL SCHEMA
+
+-- App: accounts
+-- App: companies
+-- App: events
+-- App: feed
+-- App: jobs
+-- App: promotions
+-- App: referrals
+-- App: trust
+-- App: wallet
