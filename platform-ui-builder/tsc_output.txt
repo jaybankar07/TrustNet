@@ -1,0 +1,7 @@
+src/components/AppHeader.tsx(146,18): error TS18048: 'searchResults' is possibly 'undefined'.
+src/components/AppHeader.tsx(176,18): error TS18048: 'searchResults' is possibly 'undefined'.
+src/components/EventCard.tsx(28,40): error TS2551: Property 'trust_score' does not exist on type 'MockEvent'. Did you mean 'trustScore'?
+src/components/EventCard.tsx(36,70): error TS2339: Property 'name' does not exist on type 'never'.
+src/components/EventCard.tsx(45,39): error TS2551: Property 'is_online' does not exist on type 'MockEvent'. Did you mean 'online'?
+src/components/EventCard.tsx(49,20): error TS2339: Property 'registration_count' does not exist on type 'MockEvent'.
+src/components/EventCard.tsx(50,20): error TS2551: Property 'max_attendees' does not exist on type 'MockEvent'. Did you mean 'attendees'?
