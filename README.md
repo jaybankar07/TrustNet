@@ -131,9 +131,14 @@ What separates TrustNet from LinkedIn and X?
 - **Anti-fake ecosystem:** By mandating strict biometric and GST checkpoints, bots and spam are structurally impossible.
 - **Direct B2B Pipeline:** Investors and verified Founders connect in an ecosystem entirely cleansed of noise, scam operators, and irrelevant traffic.
 
+---
+---
 
 **⚠️ Important Notes & System Scope**
 
+
+---
+---
 🧩 Repository & Deployment Context
 
 Due to submission constraints, the project is shared via a personal repository.
