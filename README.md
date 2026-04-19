@@ -20,7 +20,7 @@ The codebase is a tightly integrated monorepo consisting of three specialized mi
 2. **/trustnet-backend (Core Database API)**
    - **Framework:** Python / Django Rest Framework (DRF)
    - **Database:** PostgreSQL (production) + SQLite (testing)
-   - **Role:** The command center. Enforces strict `IsVerifiedUser` guard rails on write queries, calculates dynamic Trust Scores based on ecosystem engagement, and uses **Google Gemini 2.5 Flash Vision** for facial biometric recognition during signup.
+   - **Role:** The command center. Enforces strict `IsVerifiedUser` guard rails on write queries, calculates dynamic Trust Scores based on ecosystem engagement, and uses **Google Gemini 1.5 Flash Vision** for facial biometric recognition during signup.
 3. **/otp (Twilio Microservice)**
    - **Framework:** Node.js + Express
    - **Role:** An isolated, serverless microservice that communicates directly with Twilio's messaging API to format global numbers and securely mint/verify Company Claim authorization codes.
