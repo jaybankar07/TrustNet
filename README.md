@@ -130,3 +130,105 @@ What separates TrustNet from LinkedIn and X?
 - **Trust-first architecture:** We built the permissions system *before* we built the feed. If you aren't verified, you don't exist.
 - **Anti-fake ecosystem:** By mandating strict biometric and GST checkpoints, bots and spam are structurally impossible.
 - **Direct B2B Pipeline:** Investors and verified Founders connect in an ecosystem entirely cleansed of noise, scam operators, and irrelevant traffic.
+
+
+##⚠️ Important Notes & System Scope
+
+🧩 Repository & Deployment Context
+
+Due to submission constraints, the project is shared via a personal repository.
+
+Some advanced modules developed in the local environment are not included in this version. These modules are part of our extended implementation and can be integrated seamlessly into the current architecture.
+
+---
+
+📞 Phone Verification (OTP System)
+
+We implemented OTP-based phone verification using Twilio.
+
+- Currently configured with test numbers for demonstration
+- Designed to support real user numbers in production
+
+This approach ensured rapid MVP delivery while maintaining a scalable authentication structure.
+
+---
+
+🔐 Trust-Based Authentication & Verification System
+
+Our platform follows a multi-layer trust architecture:
+
+1. Identity Verification Layer
+
+- OTP-based phone authentication
+- Government ID submission (Aadhaar / Passport / DL)
+- Live webcam capture
+- Face matching logic (designed, partially implemented)
+
+2. Organization Verification Layer
+
+- GST-based validation (Company Name + Location match)
+- Company claim workflow
+- Designed for extension with domain/email validation and admin approval
+
+---
+
+🔒 Progressive Access Control (Core Principle)
+
+The platform follows a progressive access model:
+
+- Users can explore the platform freely
+- Verified users gain access to critical actions such as:
+  - Posting content
+  - Applying for jobs
+  - Creating events
+
+This ensures usability while maintaining trust and security.
+
+---
+
+🧠 System Design for Government Integration (Future Scope)
+
+The system is designed to integrate with official verification services.
+
+- Government APIs can replace current datasets
+- Enables real-time validation of identity and organization data
+- Architecture supports seamless transition to official sources
+
+---
+
+📅 Event Trust & Payment Security (Planned Module)
+
+A trust-based event system has been designed:
+
+- Events are classified as:
+  
+  - Verified (trusted organizers)
+  - Unverified (limited visibility)
+
+- Planned enhancements:
+  
+  - Payment gateway integration (Stripe / Razorpay)
+  - Secure transaction handling
+  - Fraud prevention and refund logic
+
+Due to external dependency timelines (payment gateway approvals), this module is not fully integrated in the current version.
+
+---
+
+🚀 Final Note
+
+This project was developed within a 24-hour hackathon constraint with a focus on:
+
+- Trust-first system design
+- Scalable architecture
+- Real-world applicability
+
+The current implementation demonstrates a strong foundation, with clear pathways to extend into a fully production-ready platform.
+
+We encourage evaluation based on:
+
+- System design thinking
+- Trust architecture
+- Scalability and extensibility
+
+---
