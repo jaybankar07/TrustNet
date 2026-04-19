@@ -1,9 +1,8 @@
 from rest_framework import generics, status
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework import serializers as drf_serializers
-from accounts.serializers import PublicUserSerializer
 
 from core.trust_service import calculate_user_trust_score
 from .models import ReferralCode, ReferralUsage
@@ -11,7 +10,11 @@ from .models import ReferralCode, ReferralUsage
 
 class ReferralCodeSerializer(drf_serializers.ModelSerializer):
     usages_count = drf_serializers.SerializerMethodField()
-    user = PublicUserSerializer(read_only=True)
+
+    @property
+    def user(self):
+        from accounts.serializers import PublicUserSerializer
+        return PublicUserSerializer(self.instance.user).data
 
     class Meta:
         model = ReferralCode
