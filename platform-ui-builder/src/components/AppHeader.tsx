@@ -25,28 +25,25 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { VerifiedBadge } from "./VerifiedBadge";
-import { currentUser as mockUser } from "@/lib/mock/users";
-import { notifications } from "@/lib/mock/notifications";
 import { toast } from "sonner";
 import { useCurrentUser } from "@/lib/api";
 
 export function AppHeader() {
   const navigate = useNavigate();
   const { data: liveUser } = useCurrentUser();
+  const defaultUser = { name: "Guest", handle: "", avatar: "", verification: "unverified", id: 0 };
   const currentUser = liveUser
     ? {
-        ...mockUser,
         name: liveUser.name,
         handle: liveUser.name.split(" ")[0].toLowerCase(),
         avatar: liveUser.avatar_url,
         verification: liveUser.verification_status,
         id: liveUser.id,
       }
-    : mockUser;
+    : defaultUser;
 
-  const unread = notifications.filter((n) => n.unread).length;
+  const unread = 0;
 
-  // Search State
   const [searchQ, setSearchQ] = useState("");
   const [showSearchResults, setShowSearchResults] = useState(false);
 
@@ -267,20 +264,9 @@ export function AppHeader() {
               </button>
             </div>
             <ul className="max-h-80 overflow-y-auto">
-              {notifications.map((n) => (
-                <li
-                  key={n.id}
-                  className="flex items-start gap-2 border-b px-3 py-2 last:border-b-0 hover:bg-muted/50"
-                >
-                  <span
-                    className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${n.unread ? "bg-primary" : "bg-transparent"}`}
-                  />
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm text-foreground">{n.text}</p>
-                    <p className="text-xs text-muted-foreground">{n.time}</p>
-                  </div>
+                <li className="flex items-center justify-center p-4 text-sm text-muted-foreground italic">
+                  No new notifications
                 </li>
-              ))}
             </ul>
           </PopoverContent>
         </Popover>

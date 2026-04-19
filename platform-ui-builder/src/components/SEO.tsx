@@ -10,12 +10,10 @@ export function SEO({ title, description }: SEOProps) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
-    // 1. Title
     const baseTitle = "TrustNet | Verified Professional Network";
     const fullTitle = title ? `${title} · TrustNet` : baseTitle;
     document.title = fullTitle;
 
-    // 2. Meta Description
     let metaDesc = document.querySelector('meta[name="description"]');
     if (!metaDesc) {
       metaDesc = document.createElement("meta");
@@ -28,7 +26,6 @@ export function SEO({ title, description }: SEOProps) {
         "Connect professionally, verify trust, and discover opportunities on TrustNet.",
     );
 
-    // 3. Canonical Tag
     let linkCanonical = document.querySelector('link[rel="canonical"]');
     if (!linkCanonical) {
       linkCanonical = document.createElement("link");

@@ -27,7 +27,6 @@ function EditProfile() {
   const [newSkill, setNewSkill] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // Sync state with user data
   useEffect(() => {
     if (user) {
       setName(user.full_name || user.name || "");

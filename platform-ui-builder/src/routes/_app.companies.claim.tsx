@@ -29,7 +29,6 @@ function ClaimCompany() {
   const f = (k: string) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((p) => ({ ...p, [k]: e.target.value }));
 
-  // Step 1 → Step 2: Verify GST
   const handleStep1 = async () => {
     if (!form.company_name || !form.gst_no || !form.city) {
       toast.error("Fill in all required fields");
@@ -57,7 +56,6 @@ function ClaimCompany() {
     }
   };
 
-  // Step 2 → Step 3: OTP
   const handleSendOtp = async () => {
     if (!form.work_email) {
       toast.error("Enter your work phone (+91...)");
@@ -107,7 +105,6 @@ function ClaimCompany() {
     }
   };
 
-  // Step 4: Submit Claim
   const handleSubmit = async () => {
     setIsLoading(true);
     try {

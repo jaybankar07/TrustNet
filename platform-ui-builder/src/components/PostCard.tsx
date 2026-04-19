@@ -5,8 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { VerifiedBadge } from "./VerifiedBadge";
 import { Link } from "@tanstack/react-router";
-import { getUserById } from "@/lib/mock/users";
-import type { MockPost } from "@/lib/mock/posts";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { fetchApi } from "@/lib/api";

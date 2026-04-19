@@ -55,7 +55,6 @@ function Feed() {
     },
   });
 
-  // Don't block the feed on the current user loading — show posts immediately
 
   return (
     <div className="mx-auto grid w-full max-w-7xl gap-5 p-4 lg:grid-cols-[260px_minmax(0,1fr)_300px] lg:p-6">

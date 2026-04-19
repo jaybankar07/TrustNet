@@ -22,7 +22,6 @@ class Event(models.Model):
     is_online = models.BooleanField(default=False)
     max_attendees = models.PositiveIntegerField(null=True, blank=True)
 
-    # Trust system fields
     trust_score = models.IntegerField(
         default=0, validators=[MinValueValidator(0), MaxValueValidator(100)]
     )

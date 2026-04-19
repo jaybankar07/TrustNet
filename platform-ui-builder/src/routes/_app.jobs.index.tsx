@@ -49,7 +49,6 @@ function CreateJobDialog({ open, onClose }: { open: boolean; onClose: () => void
     benefits: "",
   });
 
-  // Fetch user's companies to pick a company_id for posting
   const { data: companies = [] } = useQuery({
     queryKey: ["my-companies"],
     queryFn: async () => {
@@ -95,7 +94,6 @@ function CreateJobDialog({ open, onClose }: { open: boolean; onClose: () => void
       salary_range: form.salary_range,
       job_type: form.job_type,
       work_mode: form.work_mode,
-      // backend resolves company by name+city from registered companies
       company_name_input: form.company_name,
       city_input: form.location,
     });

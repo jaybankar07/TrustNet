@@ -42,8 +42,6 @@ class PostSerializer(serializers.ModelSerializer):
 
     def get_original_post(self, obj):
         if obj.original_post:
-            # Avoid infinite recursion by not passing context or limiting depth
-            # but usually for reposts 1 level is enough
             return PostSerializer(obj.original_post, context=self.context).data
         return None
 

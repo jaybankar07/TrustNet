@@ -14,7 +14,6 @@ from .serializers import (
 from core.trust_service import calculate_user_trust_score
 
 
-# ── Auth ──────────────────────────────────────────────────────────────────────
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -22,7 +21,6 @@ def signup(request):
     serializer = SignupSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     user = serializer.save()
-    # Bootstrap trust score
     calculate_user_trust_score(user)
     refresh = RefreshToken.for_user(user)
     return Response({
@@ -50,7 +48,6 @@ def login(request):
         'refresh': str(refresh),
     })
 
-# ── Verification Wizard Endpoints ──────────────────────────────────────────────
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -96,7 +93,6 @@ def verify_face(request):
     live_image = request.data.get('live_image')
     passport_image = request.data.get('passport_image')
     
-    # Preserve backwards compatibility for mock endpoints that don't pass payloads
     if not live_image or not passport_image:
         import time
         time.sleep(1)
@@ -106,9 +102,8 @@ def verify_face(request):
     import json
     import os
     API_KEY = os.environ.get('GEMINI_API_KEY', "AIzaSyDcrI7R4QcJ9ZXa_UEB9KRrVuuec0EeAEc")
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={API_KEY}"
     
-    # Strip base64 prefixes if present from frontend JS formatting
     def clean_b64(b64):
         if b64.startswith("data:image"):
             return b64.split(",")[1]
@@ -147,7 +142,6 @@ def verify_face(request):
         print("Biometric Error:", e)
         return Response({'detail': 'Biometric facial processing engine offline or timed out.'}, status=500)
 
-# ── Profile ───────────────────────────────────────────────────────────────────
 
 class MeView(generics.RetrieveUpdateAPIView):
     serializer_class = UserProfileSerializer
@@ -157,7 +151,6 @@ class MeView(generics.RetrieveUpdateAPIView):
         return self.request.user
 
 
-# ── Verification ──────────────────────────────────────────────────────────────
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -168,7 +161,6 @@ def submit_verification(request):
             return Response({'detail': 'Verification request already pending.'}, status=400)
         if existing.status == 'verified':
             return Response({'detail': 'Already verified.'}, status=400)
-        # Rejected → allow resubmission
         existing.delete()
 
     serializer = VerificationRequestSerializer(data=request.data)
@@ -187,7 +179,6 @@ def verification_status(request):
         return Response({'status': 'not_submitted'})
 
 
-# ── Admin Verification Actions ────────────────────────────────────────────────
 
 class AdminVerificationListView(generics.ListAPIView):
     serializer_class = AdminVerificationSerializer
@@ -222,13 +213,11 @@ def admin_review_verification(request, pk):
     vr.save()
     vr.user.save(update_fields=['is_verified', 'verification_status'])
 
-    # Recalculate trust score after verification change
     calculate_user_trust_score(vr.user)
 
     return Response({'detail': f'Verification {action}d.', 'trust_score': vr.user.trust_score})
 
 
-# ── Admin User List ───────────────────────────────────────────────────────────
 
 class AdminUserListView(generics.ListAPIView):
     serializer_class = UserProfileSerializer
@@ -238,7 +227,6 @@ class AdminUserListView(generics.ListAPIView):
     filterset_fields = ['role', 'is_verified', 'verification_status']
 
 
-# ── Public User List ──────────────────────────────────────────────────────────
 
 class UserListView(generics.ListAPIView):
     serializer_class = UserProfileSerializer

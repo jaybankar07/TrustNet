@@ -2,7 +2,6 @@ import { Link } from "@tanstack/react-router";
 import { Calendar, MapPin, Users } from "lucide-react";
 import { TrustIndicator } from "./TrustIndicator";
 import { Badge } from "@/components/ui/badge";
-import type { MockEvent } from "@/lib/mock/events";
 
 export function EventCard({ event }: { event: any }) {
   return (

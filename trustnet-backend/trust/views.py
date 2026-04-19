@@ -16,7 +16,6 @@ def file_report(request):
     serializer.is_valid(raise_exception=True)
     report = serializer.save(reporter=request.user)
 
-    # Side effects: recalculate trust for the target
     target_type = report.target_type
     target_id = report.target_id
 
@@ -68,7 +67,7 @@ def ai_chat_assistant(request):
     message = request.data.get('message', '').strip()
     
     API_KEY = os.environ.get('GEMINI_API_KEY', "AIzaSyDcrI7R4QcJ9ZXa_UEB9KRrVuuec0EeAEc")
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={API_KEY}"
 
     data = {
         "contents": [{"parts": [{"text": message}]}],
@@ -96,7 +95,7 @@ def profile_optimization_tips(request):
     import os
     
     API_KEY = os.environ.get('GEMINI_API_KEY', "AIzaSyDcrI7R4QcJ9ZXa_UEB9KRrVuuec0EeAEc")
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={API_KEY}"
 
     user_context = f"Name: {request.user.name}, Role: {request.user.role}, Bio: {request.user.bio}, TrustScore: {request.user.trust_score}"
     

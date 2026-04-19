@@ -11,7 +11,6 @@ print("=== USERS IN DB ===")
 for u in users:
     print(f"Email: {u.email} | Name: {u.name} | Role: {u.role}")
 
-# Create or Update test admin user
 email = "admin@trustnet.com"
 password = "password123"
 

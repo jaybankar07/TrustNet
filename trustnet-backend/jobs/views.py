@@ -37,7 +37,6 @@ class JobListCreateView(generics.ListCreateAPIView):
                 pass
 
         if company is None and company_name_input and city_input:
-            # Match company name and city against official GST data in DB
             is_valid = OfficialGSTData.objects.filter(
                 company_name__iexact=company_name_input,
                 city__iexact=city_input
@@ -46,7 +45,6 @@ class JobListCreateView(generics.ListCreateAPIView):
             if not is_valid:
                 raise ValidationError({'detail': 'Company name and city do not match our official records.'})
 
-            # Validated officially. Get or create the actual Company record for the job.
             company = Company.objects.filter(name__iexact=company_name_input).first()
             if not company:
                 company = Company.objects.create(name=company_name_input, is_verified=True)

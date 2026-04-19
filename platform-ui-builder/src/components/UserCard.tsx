@@ -2,9 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { VerifiedBadge } from "./VerifiedBadge";
-import type { MockUser } from "@/lib/mock/users";
 
-export function UserCard({ user, compact = false }: { user: MockUser; compact?: boolean }) {
+export function UserCard({ user, compact = false }: { user: any; compact?: boolean }) {
   return (
     <div className="flex items-center gap-3 rounded-xl border bg-card p-3 shadow-sm">
       <Avatar className="h-10 w-10">

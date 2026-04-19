@@ -28,7 +28,6 @@ function FundingDiscovery() {
   });
 
   const handlePost = async () => {
-    // Attempt post
     const res = await fetchApi("/companies/funding/", {
       method: "POST",
       body: JSON.stringify({

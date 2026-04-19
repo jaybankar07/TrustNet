@@ -83,8 +83,9 @@ function ReferralsPage() {
         <Trophy className="h-6 w-6 text-amber-500" /> Top Referrers
       </h3>
       <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
-        <div className="grid grid-cols-[auto_1fr_auto] gap-4 border-b bg-muted/40 p-4 font-medium text-sm text-muted-foreground">
+        <div className="grid grid-cols-[auto_1fr_auto_auto] gap-4 border-b bg-muted/40 p-4 font-medium text-sm text-muted-foreground">
           <div className="w-8 text-center">Rank</div>
+          <div>Referrer</div>
           <div>Code</div>
           <div className="text-right">VP Earned</div>
         </div>
@@ -93,7 +94,7 @@ function ReferralsPage() {
             <div
               key={item.id}
               className={cn(
-                "grid grid-cols-[auto_1fr_auto] items-center gap-4 p-4 transition-colors hover:bg-muted/30",
+                "grid grid-cols-[auto_1fr_auto_auto] items-center gap-4 p-4 transition-colors hover:bg-muted/30",
                 idx === 0 && "bg-amber-500/5",
               )}
             >
@@ -111,7 +112,16 @@ function ReferralsPage() {
               >
                 #{idx + 1}
               </div>
-              <div className="font-mono text-sm tracking-wide">{item.code}</div>
+              <div className="flex items-center gap-3">
+                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary text-xs overflow-hidden">
+                   {item.user?.avatar_url ? <img src={item.user.avatar_url} className="h-full w-full object-cover" /> : (item.user?.name || "U")[0]}
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-sm font-semibold">{item.user?.name || "Unknown Professional"}</span>
+                  <span className="text-[10px] text-muted-foreground uppercase tracking-wider">{item.user?.role || "User"}</span>
+                </div>
+              </div>
+              <div className="font-mono text-xs tracking-wide text-muted-foreground px-2 py-0.5 rounded border bg-muted/20 w-fit">{item.code}</div>
               <div className="text-right font-semibold text-amber-500">{item.reward_points}</div>
             </div>
           ))}

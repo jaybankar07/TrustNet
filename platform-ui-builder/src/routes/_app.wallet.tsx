@@ -50,7 +50,7 @@ function Wallet() {
             <span className="text-lg font-semibold text-muted-foreground">TNT</span>
           </div>
           <p className="mt-2 text-sm text-muted-foreground">
-            ≈ ${(wallet?.balance || 0).toFixed(2)} USD
+            ≈ ${parseFloat(wallet?.balance || 0).toFixed(2)} USD
           </p>
 
           <div className="mt-6 flex gap-3">
@@ -68,7 +68,7 @@ function Wallet() {
           <div className="rounded-xl border bg-card p-4 shadow-sm h-full">
             <p className="text-sm font-semibold text-muted-foreground">Escrow Locked</p>
             <p className="mt-2 text-2xl font-bold italic text-amber-500">
-              {wallet?.locked_balance || 0} TNT
+              {parseFloat(wallet?.locked_balance || 0).toFixed(2)} TNT
             </p>
           </div>
           <div className="rounded-xl border bg-card p-4 shadow-sm h-full hidden lg:block">

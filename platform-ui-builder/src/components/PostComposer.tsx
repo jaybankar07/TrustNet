@@ -51,7 +51,6 @@ export function PostComposer() {
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    // For video, show a reminder — actual duration check happens server-side
     if (postType === "video") {
       toast.info("Reminder: Videos must be under 5 minutes.");
     }

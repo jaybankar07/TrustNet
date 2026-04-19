@@ -3,7 +3,6 @@ import { Bookmark, MapPin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { VerifiedBadge } from "./VerifiedBadge";
-import type { MockJob } from "@/lib/mock/jobs";
 
 export function JobCard({ job }: { job: any }) {
   return (

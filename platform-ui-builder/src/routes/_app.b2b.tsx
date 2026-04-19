@@ -27,7 +27,6 @@ function B2BExchange() {
   });
 
   const handlePost = async () => {
-    // Attempt post
     const res = await fetchApi("/companies/b2b/projects/", {
       method: "POST",
       body: JSON.stringify({ title, description: desc, budget, requires_verified_bidders: true }),

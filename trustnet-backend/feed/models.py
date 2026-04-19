@@ -20,7 +20,6 @@ class Post(models.Model):
     post_type = models.CharField(max_length=10, choices=POST_TYPES, default='text')
     poll_data = models.JSONField(blank=True, null=True)  # {options: [{text: str, votes: int}]}
     
-    # Repost logic
     original_post = models.ForeignKey(
         'self', on_delete=models.SET_NULL, null=True, blank=True, related_name='reposts'
     )

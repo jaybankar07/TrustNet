@@ -33,7 +33,6 @@ export async function fetchApi(endpoint: string, options: RequestInit = {}) {
   });
 
   if (response.status === 401 && token) {
-    // Attempt token refresh
     const refreshToken = localStorage.getItem("refreshToken");
     if (refreshToken) {
       const refreshResponse = await fetch(`${API_URL}/auth/token/refresh/`, {

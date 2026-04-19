@@ -15,7 +15,6 @@ class EventListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsVerifiedUser]
 
     def get_queryset(self):
-        # Public: only non-flagged events
         return Event.objects.filter(is_flagged=False).select_related('organizer')
 
     def get_serializer_context(self):
@@ -23,7 +22,6 @@ class EventListCreateView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         event = serializer.save(organizer=self.request.user)
-        # Compute initial trust score
         calculate_event_trust_score(event)
         calculate_user_trust_score(self.request.user)
 
@@ -53,7 +51,6 @@ def register_for_event(request, pk):
             return Response({'detail': 'Event is full.'}, status=400)
 
     Registration.objects.create(event=event, user=request.user)
-    # Recalculate event trust after new registration
     calculate_event_trust_score(event)
     return Response({'detail': 'Successfully registered.'}, status=status.HTTP_201_CREATED)
 

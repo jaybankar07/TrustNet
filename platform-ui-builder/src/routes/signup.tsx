@@ -33,7 +33,6 @@ function Signup() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Start Camera
   useEffect(() => {
     if (step === (form.role === "company_admin" ? 4 : 3)) {
       navigator.mediaDevices
@@ -45,14 +44,12 @@ function Signup() {
         })
         .catch(() => toast.error("Camera access required for verification"));
     } else {
-      // Stop camera if not on that step
       if (videoRef.current?.srcObject) {
         (videoRef.current.srcObject as MediaStream).getTracks().forEach((t) => t.stop());
       }
     }
   }, [step, form.role]);
 
-  // Validate Step 1: Details
   const handleStep1 = async () => {
     const err: Record<string, string> = {};
     if (form.name.trim().length < 2)
@@ -91,7 +88,6 @@ function Signup() {
     }
   };
 
-  // Step 2: OTP
   const handleStep2 = async () => {
     setIsLoading(true);
     try {
@@ -114,7 +110,6 @@ function Signup() {
     }
   };
 
-  // Step 3: GST (Business Only)
   const handleStep3GST = async () => {
     setIsLoading(true);
     try {
@@ -134,11 +129,9 @@ function Signup() {
     }
   };
 
-  // Final Step: Face Match & Submit
   const handleFaceSubmit = async () => {
     setIsLoading(true);
     try {
-      // 1. Capture Passport Image Base64
       if (!fileInputRef.current?.files?.[0]) {
         throw new Error("Please upload your passport or ID photo for verification.");
       }
@@ -149,7 +142,6 @@ function Signup() {
         reader.readAsDataURL(passportFile);
       });
 
-      // 2. Capture Live Webcam Snapshot
       const video = videoRef.current;
       if (!video || !video.srcObject) {
         throw new Error("Live webcam feed is required to verify identity.");
@@ -160,7 +152,6 @@ function Signup() {
       canvas.getContext("2d")?.drawImage(video, 0, 0, canvas.width, canvas.height);
       const liveB64 = canvas.toDataURL("image/jpeg");
 
-      // 3. Verify Face utilizing Biometric Vision AI
       const faceRes = await fetchApi("/auth/verify-face/", {
         method: "POST",
         body: JSON.stringify({ live_image: liveB64, passport_image: passportB64 }),
@@ -170,7 +161,6 @@ function Signup() {
         throw new Error(d.detail || "Face verification mismatch.");
       }
 
-      // 2. All verifications passed -> CREATE ACCOUNT
       const resp = await fetchApi("/auth/signup/", {
         method: "POST",
         body: JSON.stringify(form),
@@ -181,7 +171,6 @@ function Signup() {
         throw new Error(errorData.email?.[0] || errorData.detail || "Signup failed");
       }
 
-      // Auto login
       const loginResp = await fetchApi("/auth/login/", {
         method: "POST",
         body: JSON.stringify({ email: form.email, password: form.password }),
@@ -193,7 +182,6 @@ function Signup() {
         localStorage.setItem("refreshToken", data.refresh);
       }
 
-      // Stop Camera
       if (videoRef.current?.srcObject) {
         (videoRef.current.srcObject as MediaStream).getTracks().forEach((t) => t.stop());
       }

@@ -1,6 +1,7 @@
 import { BadgeCheck, Clock, ShieldAlert, ShieldOff } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { VerificationStatus } from "@/lib/mock/users";
+
+export type VerificationStatus = 'unverified' | 'pending' | 'verified' | 'rejected';
 
 interface Props {
   status: VerificationStatus;

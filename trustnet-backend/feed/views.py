@@ -81,7 +81,6 @@ def repost(request, pk):
     except Post.DoesNotExist:
         return Response({'detail': 'Post not found.'}, status=404)
     
-    # Check if already reposted
     existing = Post.objects.filter(user=request.user, original_post=original, is_repost=True).first()
     if existing:
         existing.delete()
@@ -110,7 +109,8 @@ def trending_hashtags(request):
     
     hashtags = []
     for content in posts:
-        hashtags.extend(re.findall(r'#\w+', content.lower()))
+        if content:
+            hashtags.extend(re.findall(r'#\w+', content.lower()))
     
     counts = Counter(hashtags).most_common(10)
     return Response([{'hashtag': h, 'count': c} for h, c in counts])

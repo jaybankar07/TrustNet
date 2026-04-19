@@ -50,7 +50,6 @@ class IsOwnerOrAdmin(BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.user.role == 'admin':
             return True
-        # Support objects that store owner as user, author, organizer, or applicant
         owner = getattr(obj, 'user', None) or \
                 getattr(obj, 'author', None) or \
                 getattr(obj, 'organizer', None) or \

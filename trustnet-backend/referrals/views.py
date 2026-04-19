@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import serializers as drf_serializers
+from accounts.serializers import PublicUserSerializer
 
 from core.trust_service import calculate_user_trust_score
 from .models import ReferralCode, ReferralUsage
@@ -10,10 +11,11 @@ from .models import ReferralCode, ReferralUsage
 
 class ReferralCodeSerializer(drf_serializers.ModelSerializer):
     usages_count = drf_serializers.SerializerMethodField()
+    user = PublicUserSerializer(read_only=True)
 
     class Meta:
         model = ReferralCode
-        fields = ['id', 'code', 'reward_points', 'usages_count', 'created_at']
+        fields = ['id', 'user', 'code', 'reward_points', 'usages_count', 'created_at']
 
     def get_usages_count(self, obj):
         return obj.usages.count()
@@ -57,11 +59,9 @@ def use_referral(request):
 
     ReferralUsage.objects.create(code=ref_code, used_by=request.user)
 
-    # Reward the code owner
     ref_code.reward_points += 10
     ref_code.save(update_fields=['reward_points'])
 
-    # Add wallet credit to code owner
     try:
         wallet = ref_code.user.wallet
         wallet.balance += 5
@@ -74,7 +74,6 @@ def use_referral(request):
     except Exception:
         pass
 
-    # Recalculate trust for code owner
     calculate_user_trust_score(ref_code.user)
 
     return Response({'detail': 'Referral code applied successfully.'})

@@ -3,7 +3,6 @@ import subprocess
 import django
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'trustnet.settings')
-# Overwrite DATABASE_URL in env to force Postgres engine for sql generation
 os.environ['DATABASE_URL'] = 'postgresql://postgres:postgres@localhost:5432/postgres'
 
 django.setup()
