@@ -62,30 +62,38 @@ def file_report(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def ai_chat_assistant(request):
-    import requests
-    import os
-    message = request.data.get('message', '').strip()
-    
-    API_KEY = os.environ.get('GEMINI_API_KEY', "AIzaSyDcrI7R4QcJ9ZXa_UEB9KRrVuuec0EeAEc")
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={API_KEY}"
+    message = request.data.get('message', '').strip().lower()
 
-    data = {
-        "contents": [{"parts": [{"text": message}]}],
-        "systemInstruction": {
-            "parts": [{"text": f"You are the TrustNet Assistant. TrustNet is a highly-verified professional networking and jobs platform. The user's name is {request.user.name}. You should be extremely helpful, professional, but concise."}]
-        }
-    }
-
-    try:
-        resp = requests.post(url, json=data, timeout=10)
-        if resp.ok:
-            res_json = resp.json()
-            reply = res_json['candidates'][0]['content']['parts'][0]['text']
+    if 'job' in message or 'work' in message or 'hire' in message:
+        from jobs.models import Job
+        jobs = Job.objects.filter(is_active=True)
+        if jobs.exists():
+            job_list = ", ".join([f"'{j.title}' at {j.company.name}" for j in jobs[:3]])
+            reply = f"Based on our active database, we have open roles like {job_list}!"
         else:
-            reply = "I'm having trouble understanding that right now (API error)."
-    except Exception as e:
-        reply = "I am currently offline or experiencing a network error."
-        
+            reply = "There are no active jobs right now."
+            
+    elif 'event' in message or 'meet' in message or 'hackathon' in message:
+        from events.models import Event
+        events = Event.objects.all()
+        if events.exists():
+            event_list = ", ".join([f"'{e.title}' on {e.date.strftime('%B %d')}" for e in events[:3]])
+            reply = f"Yes! Our upcoming events include {event_list}."
+        else:
+            reply = "We currently have no events scheduled."
+            
+    elif 'company' in message or 'companies' in message or 'b2b' in message:
+        from companies.models import Company
+        comps = Company.objects.all()
+        if comps.exists():
+            comp_list = ", ".join([c.name for c in comps[:3]])
+            reply = f"Our top verified companies in the network are {comp_list}."
+        else:
+            reply = "There are no verified companies in the network yet."
+            
+    else:
+        reply = f"Hello {request.user.name}! I am the TrustNet Assistant. Please ask me about our in-app Jobs, Upcoming Events, or Verified Companies."
+
     return Response({"reply": reply})
 
 @api_view(['GET'])

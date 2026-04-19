@@ -1,0 +1,84 @@
+Found 4 test(s).
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+Operations to perform:
+  Synchronize unmigrated apps: corsheaders, django_filters, messages, rest_framework, rest_framework_simplejwt, staticfiles
+  Apply all migrations: accounts, admin, auth, companies, contenttypes, events, feed, jobs, promotions, referrals, sessions, trust, wallet
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying accounts.0001_initial... OK
+  Applying accounts.0002_customuser_reports_count_and_more... OK
+  Applying accounts.0003_customuser_ceo_name_customuser_company_type_and_more... OK
+  Applying accounts.0004_officialgstdata_customuser_city... OK
+  Applying accounts.0005_connection_connection_unique_connection... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying companies.0001_initial... OK
+  Applying companies.0002_alter_companyclaim_unique_together_and_more... OK
+  Applying companies.0003_b2bproject_company_is_seeking_funding_and_more... OK
+  Applying events.0001_initial... OK
+  Applying events.0002_alter_registration_unique_together_and_more... OK
+  Applying events.0003_event_category... OK
+  Applying events.0004_eventticket_escrowpayment... OK
+  Applying feed.0001_initial... OK
+  Applying feed.0002_alter_like_unique_together_post_reports_count_and_more... OK
+  Applying feed.0003_post_is_repost_post_original_post_post_poll_data_and_more... OK
+  Applying feed.0004_remove_post_media_url_post_media_file... OK
+  Applying jobs.0001_initial... OK
+  Applying jobs.0002_alter_application_unique_together_and_more... OK
+  Applying jobs.0003_add_job_type_work_mode... OK
+  Applying promotions.0001_initial... OK
+  Applying referrals.0001_initial... OK
+  Applying referrals.0002_alter_referralusage_unique_together_and_more... OK
+  Applying sessions.0001_initial... OK
+  Applying trust.0001_initial... OK
+  Applying wallet.0001_initial... OK
+System check identified no issues (0 silenced).
+test_unverified_write_block (core.tests.SecurityPermissionTests.test_unverified_write_block)
+Test that an unverified profile cannot inject spam/posts into the feed system. ... ok
+test_verified_write_allow (core.tests.SecurityPermissionTests.test_verified_write_allow)
+Test that verified humans easily bypass security gates. ... ok
+test_base_score_logic (core.tests.TrustScoreEngineTests.test_base_score_logic)
+Test that unverified users start exactly at base limits. ... FAIL
+test_verified_user_bump (core.tests.TrustScoreEngineTests.test_verified_user_bump)
+Test that passing biometric face verification cleanly spikes the algorithmic trust score. ... FAIL
+
+======================================================================
+FAIL: test_base_score_logic (core.tests.TrustScoreEngineTests.test_base_score_logic)
+Test that unverified users start exactly at base limits.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\DevClash 2k26\trustnet-backend\core\tests.py", line 22, in test_base_score_logic
+    self.assertEqual(score, 10, "Base initial score should equal profile baseline without verification bonus")
+AssertionError: 0 != 10 : Base initial score should equal profile baseline without verification bonus
+
+======================================================================
+FAIL: test_verified_user_bump (core.tests.TrustScoreEngineTests.test_verified_user_bump)
+Test that passing biometric face verification cleanly spikes the algorithmic trust score.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\DevClash 2k26\trustnet-backend\core\tests.py", line 30, in test_verified_user_bump
+    self.assertGreaterEqual(score, 50, "Verified user should immediately gain +40 trust bump")
+AssertionError: 40 not greater than or equal to 50 : Verified user should immediately gain +40 trust bump
+
+----------------------------------------------------------------------
+Ran 4 tests in 2.114s
+
+FAILED (failures=2)
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

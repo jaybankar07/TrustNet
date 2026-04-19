@@ -29,7 +29,10 @@ export function PostCard({ post }: { post: any }) {
 
   const fetchComments = async () => {
     const res = await fetchApi(`/feed/posts/${post.id}/comments/`);
-    if (res.ok) setComments(await res.json());
+    if (res.ok) {
+      const data = await res.json();
+      setComments(data.results || data);
+    }
   };
 
   const handleLike = async () => {

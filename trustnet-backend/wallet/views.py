@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import serializers as drf_serializers
 
-from core.permissions import IsAdminRole
+from core.permissions import IsAdminRole, IsVerifiedUser
 from .models import Wallet, Transaction, Coupon
 
 
@@ -65,7 +65,7 @@ def add_credits(request):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsVerifiedUser])
 def redeem_coupon(request):
     code_str = request.data.get('code')
     if not code_str:

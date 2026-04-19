@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { MapPin, Building2, Sparkles, MessageSquare, UserPlus } from "lucide-react";
+import { MapPin, Building2, Sparkles, MessageSquare, UserPlus, BriefcaseBusiness } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -169,7 +169,7 @@ function Profile() {
               <div className="rounded-xl border bg-card p-5 shadow-sm">
                 <p className="text-sm font-semibold">Skills</p>
                 <div className="mt-3 flex flex-wrap gap-1.5">
-                  {user.skills.map((s: string) => (
+                  {(user.skills || []).map((s: string) => (
                     <Badge key={s} variant="secondary">
                       {s}
                     </Badge>
@@ -179,9 +179,11 @@ function Profile() {
             </TabsContent>
             <TabsContent value="experience">
               <div className="rounded-xl border bg-card p-5 shadow-sm">
-                <p className="text-sm font-semibold">Experience</p>
-                <ol className="mt-4 space-y-5">
-                  {user.experience.map((e: (typeof user.experience)[number]) => (
+                <h3 className="font-semibold text-lg flex items-center gap-2">
+                  <BriefcaseBusiness className="h-4 w-4" /> Experience
+                </h3>
+                <ul className="mt-4 space-y-4">
+                  {(user.experience || []).map((e: (typeof user.experience)[number]) => (
                     <li key={e.role + e.company} className="flex gap-4">
                       <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-muted">
                         <Building2 className="h-4 w-4 text-muted-foreground" />
@@ -197,7 +199,7 @@ function Profile() {
                       </div>
                     </li>
                   ))}
-                </ol>
+                </ul>
               </div>
             </TabsContent>
             <TabsContent value="posts" className="space-y-4">

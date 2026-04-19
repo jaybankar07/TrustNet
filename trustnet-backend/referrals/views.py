@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework import serializers as drf_serializers
 
+from core.permissions import IsVerifiedUser
 from core.trust_service import calculate_user_trust_score
 from .models import ReferralCode, ReferralUsage
 
@@ -43,7 +44,7 @@ def my_referral_code(request):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsVerifiedUser])
 def use_referral(request):
     code_str = request.data.get('code')
     if not code_str:

@@ -1,4 +1,4 @@
-export const API_URL = import.meta.env.VITE_API_URL || "https://trust-net-oluh.vercel.app";
+export const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 import { useQuery } from "@tanstack/react-query";
 
 export function useCurrentUser() {

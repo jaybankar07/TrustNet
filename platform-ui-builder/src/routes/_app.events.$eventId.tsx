@@ -176,7 +176,7 @@ function EventDetail() {
           <div className="rounded-xl border bg-card p-5 shadow-sm">
             <p className="text-sm font-semibold">Agenda</p>
             <ol className="mt-3 space-y-3">
-              {event.agenda.map((a: (typeof event.agenda)[number]) => (
+              {(event.agenda || []).map((a: (typeof event.agenda)[number]) => (
                 <li key={a.time} className="flex gap-4">
                   <p className="w-32 shrink-0 text-xs font-medium text-muted-foreground">
                     {a.time}

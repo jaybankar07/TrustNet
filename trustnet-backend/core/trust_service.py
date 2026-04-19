@@ -10,7 +10,7 @@ def calculate_user_trust_score(user) -> int:
     Compute and PERSIST trust score for a user.
     Returns the new score.
     """
-    score = 0
+    score = 10
 
     if user.is_verified:
         score += 40
@@ -68,4 +68,6 @@ def flag_user_if_needed(user):
         target_type='user', target_id=str(user.id)
     ).count()
     if user.trust_score < 20 or reports_count > 5:
-        pass
+        user.is_verified = False
+        user.verification_status = 'rejected'
+        user.save(update_fields=['is_verified', 'verification_status'])
