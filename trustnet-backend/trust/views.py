@@ -99,31 +99,7 @@ def ai_chat_assistant(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def profile_optimization_tips(request):
-    import requests
-    import os
-    
-    API_KEY = os.environ.get('GEMINI_API_KEY', "AIzaSyDcrI7R4QcJ9ZXa_UEB9KRrVuuec0EeAEc")
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={API_KEY}"
-
-    user_context = f"Name: {request.user.name}, Role: {request.user.role}, Bio: {request.user.bio}, TrustScore: {request.user.trust_score}"
-    
-    data = {
-        "contents": [{"parts": [{"text": f"Review this professional networking profile: {user_context}."}]}],
-        "systemInstruction": {
-            "parts": [{"text": "You are the TrustNet AI Profile Coach. Give 3 short, actionable, bullet-pointed tips to help this user improve their profile trust score, get more connections, or stand out. Output must be raw text with bullet points, no markdown formatting like bold/italics, and concise."}]
-        }
-    }
-
-    try:
-        resp = requests.post(url, json=data, timeout=10)
-        if resp.ok:
-            res_json = resp.json()
-            reply = res_json['candidates'][0]['content']['parts'][0]['text']
-        else:
-            reply = "Complete your bio to get started.\nVerify your company.\nUpload a profile picture."
-    except Exception:
-        reply = "Complete your bio to get started.\nVerify your company.\nUpload a profile picture."
-        
+    reply = "📌 Complete your bio to highlight expertise.\n📌 Verify your company via GST to unlock B2B.\n📌 Expand your network with 5 verified connections."
     return Response({"tips": reply})
 
 
