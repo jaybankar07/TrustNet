@@ -132,7 +132,7 @@ What separates TrustNet from LinkedIn and X?
 - **Direct B2B Pipeline:** Investors and verified Founders connect in an ecosystem entirely cleansed of noise, scam operators, and irrelevant traffic.
 
 
-##⚠️ Important Notes & System Scope
+**⚠️ Important Notes & System Scope**
 
 🧩 Repository & Deployment Context
 
