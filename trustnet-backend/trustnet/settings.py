@@ -122,4 +122,6 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://localhost:5173',
     'http://localhost:8081',
+    'https://trustnet.jay-bankar-24uds.workers.dev',
+    'https://trust-net-oluh.vercel.app',
 ]
