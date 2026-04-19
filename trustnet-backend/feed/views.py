@@ -1,6 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
 from core.permissions import IsVerifiedUser, IsOwnerOrAdmin
@@ -17,7 +17,7 @@ class PostListCreateView(generics.ListCreateAPIView):
     def get_permissions(self):
         if self.request.method == 'POST':
             return [IsVerifiedUser()]
-        return [IsAuthenticated()]
+        return [AllowAny()]
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
@@ -34,8 +34,12 @@ class PostListCreateView(generics.ListCreateAPIView):
 
 class PostDetailView(generics.RetrieveDestroyAPIView):
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated, IsOwnerOrAdmin]
     queryset = Post.objects.select_related('user')
+
+    def get_permissions(self):
+        if self.request.method == 'DELETE':
+            return [IsAuthenticated(), IsOwnerOrAdmin()]
+        return [AllowAny()]
 
     def get_serializer_context(self):
         return {'request': self.request}
@@ -97,7 +101,7 @@ def repost(request, pk):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def trending_hashtags(request):
     import re
     from collections import Counter

@@ -1,6 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
 from core.permissions import IsCompanyAdmin, IsVerifiedUser
@@ -17,7 +17,7 @@ class JobListCreateView(generics.ListCreateAPIView):
     def get_permissions(self):
         if self.request.method == 'POST':
             return [IsVerifiedUser()]
-        return [IsAuthenticated()]
+        return [AllowAny()]
 
     def perform_create(self, serializer):
         from companies.models import Company
@@ -57,7 +57,7 @@ class JobListCreateView(generics.ListCreateAPIView):
 
 class JobDetailView(generics.RetrieveAPIView):
     serializer_class = JobSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     queryset = Job.objects.select_related('company')
 
 

@@ -90,7 +90,7 @@ class ReferralHistoryView(generics.ListAPIView):
 
 class ReferralLeaderboardView(generics.ListAPIView):
     serializer_class = ReferralCodeSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get_queryset(self):
         return ReferralCode.objects.select_related('user').order_by('-reward_points')[:10]

@@ -1,6 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
 from core.permissions import IsVerifiedUser, IsOwnerOrAdmin
@@ -12,7 +12,11 @@ from rest_framework import viewsets
 
 class EventListCreateView(generics.ListCreateAPIView):
     serializer_class = EventSerializer
-    permission_classes = [IsVerifiedUser]
+
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            return [IsVerifiedUser()]
+        return [AllowAny()]
 
     def get_queryset(self):
         return Event.objects.filter(is_flagged=False).select_related('organizer')
@@ -28,8 +32,12 @@ class EventListCreateView(generics.ListCreateAPIView):
 
 class EventDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = EventSerializer
-    permission_classes = [IsAuthenticated, IsOwnerOrAdmin]
     queryset = Event.objects.all()
+
+    def get_permissions(self):
+        if self.request.method in ['PUT', 'PATCH', 'DELETE']:
+            return [IsAuthenticated(), IsOwnerOrAdmin()]
+        return [AllowAny()]
 
     def get_serializer_context(self):
         return {'request': self.request}

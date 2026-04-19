@@ -1,6 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
 from core.permissions import IsAdminRole, IsVerifiedUser, IsOwnerOrAdmin
@@ -11,9 +11,13 @@ from rest_framework import viewsets
 
 class CompanyListCreateView(generics.ListCreateAPIView):
     serializer_class = CompanySerializer
-    permission_classes = [IsAuthenticated]
     queryset = Company.objects.select_related('owner').all()
     search_fields = ['name', 'description']
+
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            return [IsAuthenticated()]
+        return [AllowAny()]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -71,7 +75,11 @@ def admin_review_claim(request, pk):
 
 class B2BProjectViewSet(viewsets.ModelViewSet):
     serializer_class = B2BProjectSerializer
-    permission_classes = [IsAuthenticated]
+    
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [AllowAny()]
+        return [IsAuthenticated()]
     
     def get_queryset(self):
         return B2BProject.objects.all().order_by('-created_at')
@@ -85,7 +93,11 @@ class B2BProposalViewSet(viewsets.ModelViewSet):
 
 class InvestmentPitchViewSet(viewsets.ModelViewSet):
     serializer_class = InvestmentPitchSerializer
-    permission_classes = [IsAuthenticated]
+    
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [AllowAny()]
+        return [IsAuthenticated()]
     
     def get_queryset(self):
         return InvestmentPitch.objects.all().order_by('-created_at')
